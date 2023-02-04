@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange", "CoffeeExchange\CoffeeExchange.csproj", "{30F2C8D5-3A1C-4F01-828C-F591CA8D8311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Context", "CoffeeExchange.Data.Context\CoffeeExchange.Data.Context.csproj", "{9B58FBA4-D8C3-470E-83A7-274176916E5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Requests.Models", "CoffeeExchange.Data.Requests.Models\CoffeeExchange.Data.Requests.Models.csproj", "{2748926C-5C27-475E-8F5A-66F2BBFE05CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Response.Models", "CoffeeExchange.Data.Response.Models\CoffeeExchange.Data.Response.Models.csproj", "{DFA46A6F-CA7C-4159-9BFB-8E83FDC023D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Models", "CoffeeExchange.Data.Models\CoffeeExchange.Data.Models.csproj", "{FC414A6E-6D8B-4161-96C5-4A778FC0F064}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30F2C8D5-3A1C-4F01-828C-F591CA8D8311}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30F2C8D5-3A1C-4F01-828C-F591CA8D8311}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30F2C8D5-3A1C-4F01-828C-F591CA8D8311}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30F2C8D5-3A1C-4F01-828C-F591CA8D8311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B58FBA4-D8C3-470E-83A7-274176916E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B58FBA4-D8C3-470E-83A7-274176916E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B58FBA4-D8C3-470E-83A7-274176916E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B58FBA4-D8C3-470E-83A7-274176916E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2748926C-5C27-475E-8F5A-66F2BBFE05CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2748926C-5C27-475E-8F5A-66F2BBFE05CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2748926C-5C27-475E-8F5A-66F2BBFE05CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2748926C-5C27-475E-8F5A-66F2BBFE05CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFA46A6F-CA7C-4159-9BFB-8E83FDC023D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFA46A6F-CA7C-4159-9BFB-8E83FDC023D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFA46A6F-CA7C-4159-9BFB-8E83FDC023D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFA46A6F-CA7C-4159-9BFB-8E83FDC023D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
