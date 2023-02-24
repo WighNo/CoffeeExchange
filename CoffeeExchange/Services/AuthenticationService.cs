@@ -1,24 +1,31 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using AutoMapper;
 using CoffeeExchange.Configs;
 using CoffeeExchange.Data.Context;
 using CoffeeExchange.Data.Context.Entities;
 using CoffeeExchange.Data.Requests.Models;
-using CoffeeExchange.Data.Response.Models;
 using CoffeeExchange.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CoffeeExchange.Services;
 
+/// <summary>
+/// Сервис аутентификации
+/// </summary>
 public class AuthenticationService : IAuthenticationService
 {
     private readonly AuthenticationConfig _config;
     private readonly DataContext _dataContext;
     private readonly IMapper _mapper;
 
+    /// <summary>
+    /// Конструктор
+    /// </summary>
+    /// <param name="config">Конфигурация</param>
+    /// <param name="dataContext">Провайдер данных</param>
+    /// <param name="mapper">Маппер данных</param>
     public AuthenticationService(AuthenticationConfig config, DataContext dataContext, IMapper mapper)
     {
         _config = config;
@@ -26,6 +33,11 @@ public class AuthenticationService : IAuthenticationService
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Добавление нового пользователя
+    /// </summary>
+    /// <param name="request">Параметры</param>
+    /// <returns></returns>
     public async Task<(bool, string)> Register(AuthenticationRequest request)
     {
         if (_dataContext.Users.Any(user => user.Login == request.Login) == true)
@@ -40,6 +52,11 @@ public class AuthenticationService : IAuthenticationService
         return (true, "Success");
     }
 
+    /// <summary>
+    /// Добавление нового пользователя и присвоение ему роли
+    /// </summary>
+    /// <param name="request">Параметры</param>
+    /// <returns></returns>
     public async Task<(bool, string)> RegisterWithRole(RegistrationWithRoleRequest request)
     {
         if (_dataContext.Users.Any(user => user.Login == request.Login) == true)
@@ -54,6 +71,11 @@ public class AuthenticationService : IAuthenticationService
         return (true, "Success");
     }
 
+    /// <summary>
+    /// Генерация JWT-токена
+    /// </summary>
+    /// <param name="request">Данные пользователя</param>
+    /// <returns></returns>
     public async Task<(bool, string)> Login(AuthenticationRequest request)
     {
         var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Login == request.Login);
@@ -70,8 +92,6 @@ public class AuthenticationService : IAuthenticationService
     private string GenerateJwtToken(ClaimsIdentity subject)
     {
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-
-        byte[] key = Encoding.ASCII.GetBytes(_config.BearerKey);
 
         SecurityTokenDescriptor tokenDescriptor = new()
         {

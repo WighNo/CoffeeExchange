@@ -1,61 +1,86 @@
+using AutoMapper;
 using CoffeeExchange.Data.Context;
 using CoffeeExchange.Data.Context.Entities;
-using CoffeeExchange.Data.Requests.Models;
-using Microsoft.AspNetCore.Authorization;
+using CoffeeExchange.Data.Response.Errors.NotFound;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeExchange.Controllers;
 
-// [Authorize]
+/// <summary>
+/// Контроллер каталога товаров
+/// </summary>
 [ApiController]
 [Route("catalog")]
 public class CatalogController : ControllerBase
 {
     private readonly DataContext _dataContext;
-    private readonly ILogger<CatalogController> _logger;
-
-    public CatalogController(ILogger<CatalogController> logger, DataContext dataContext)
+    private readonly IMapper _mapper;
+    
+    /// <summary>
+    /// Конструктор класса
+    /// </summary>
+    /// <param name="dataContext">Провайдер данных</param>
+    /// <param name="mapper">Маппер данных</param>
+    public CatalogController(DataContext dataContext, IMapper mapper)
     {
-        _logger = logger;
         _dataContext = dataContext;
+        _mapper = mapper;
     }
 
-    [HttpGet("get-products")]
-    public IActionResult GetProducts()
+    /// <summary>
+    /// Получить все товары
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("all-products")]
+    [ProducesResponseType(typeof(IQueryable<Product>), StatusCodes.Status200OK)]
+    public IActionResult GetAllProducts()
     {
-        var products = _dataContext.Products.AsNoTracking();
+        var products = _dataContext.Products
+            .AsNoTracking();
+        
         return Ok(products);
     }
-
-    [HttpPost("create-product")]
-    public async Task<IActionResult> CreateProduct([FromBody] CreateProductRequest request)
+    
+    /// <summary>
+    /// Получить конкретный товар
+    /// </summary>
+    /// <param name="id">ID товара</param>
+    /// <returns></returns>
+    [HttpGet("product/{id:int}")]
+    [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProductNotFound), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetProduct(int id)
     {
-        Product product = new(request);
+        var product = await _dataContext.Products
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
 
-        var result = await _dataContext.AddAsync(product);
-        await _dataContext.SaveChangesAsync();
-
-        return Ok(result.Entity);
+        if (product is null)
+            return new ProductNotFound(id);
+        
+        return Ok(product);
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpPut("edit-product")]
-    public async Task<IActionResult> EditProduct([FromQuery] int productId, [FromBody] CreateProductRequest request)
+    /// <summary>
+    /// Получить все товары в ассортименте кофейни
+    /// </summary>
+    /// <param name="coffeeHouseId">ID кофейни</param>
+    /// <returns></returns>
+    [HttpGet("products-in-coffee-house/{coffeeHouseId:int}")]
+    [ProducesResponseType(typeof(List<ProductInAssortment>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CoffeeHouseNotFound), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetProductsInCoffeeHouse(int coffeeHouseId)
     {
-        await _dataContext.Products.Where(p => p.Id == productId).ExecuteUpdateAsync(calls =>
-            calls.SetProperty(product => product.Name, product => request.Name)
-                .SetProperty(product => product.MinimalPrice, product => request.MinimalPrice));
-        /*
-        var entity = await _dataContext.Products.FirstOrDefaultAsync(product => product.Id == productId);
+        var coffeeHouse = await _dataContext.CoffeeHouses
+            .AsNoTracking()
+            .Include(coffeeHouse => coffeeHouse.Assortment)
+            .ThenInclude(productInAssortment => productInAssortment.Product)
+            .FirstOrDefaultAsync(coffeeHouse => coffeeHouse.Id == coffeeHouseId);
 
-        if (entity is null)
-            return NotFound();
-        
-        entity.Name = request.Name;
-        entity.MinimalPrice = request.MinimalPrice;
-        */
+        if (coffeeHouse is null)
+            return new CoffeeHouseNotFound(coffeeHouseId);
 
-        return Ok();
+        return Ok(coffeeHouse.Assortment);
     }
 }

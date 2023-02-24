@@ -1,5 +1,4 @@
-﻿
-namespace CoffeeExchange.Data.Context.Entities;
+﻿namespace CoffeeExchange.Data.Context.Entities;
 
 public class DealRecord : EntityBase 
 {

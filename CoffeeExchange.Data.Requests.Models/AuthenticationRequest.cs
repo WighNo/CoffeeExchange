@@ -1,5 +1,4 @@
-﻿
-namespace CoffeeExchange.Data.Requests.Models;
+﻿namespace CoffeeExchange.Data.Requests.Models;
 
 public record struct AuthenticationRequest(string Login, string Password);
 

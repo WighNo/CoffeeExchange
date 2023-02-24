@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,11 +24,8 @@
     <ItemGroup>
       <ProjectReference Include="..\CoffeeExchange.Data.Context\CoffeeExchange.Data.Context.csproj" />
       <ProjectReference Include="..\CoffeeExchange.Data.Requests.Models\CoffeeExchange.Data.Requests.Models.csproj" />
+      <ProjectReference Include="..\CoffeeExchange.Data.Response.Errors\CoffeeExchange.Data.Response.Errors.csproj" />
       <ProjectReference Include="..\CoffeeExchange.Data.Response.Models\CoffeeExchange.Data.Response.Models.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Middlewares" />
     </ItemGroup>
 
 </Project>

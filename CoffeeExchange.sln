@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Respons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Models", "CoffeeExchange.Data.Models\CoffeeExchange.Data.Models.csproj", "{FC414A6E-6D8B-4161-96C5-4A778FC0F064}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeExchange.Data.Response.Errors", "CoffeeExchange.Data.Response.Errors\CoffeeExchange.Data.Response.Errors.csproj", "{616C4EA8-204D-4A16-9401-F41FC08271AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC414A6E-6D8B-4161-96C5-4A778FC0F064}.Release|Any CPU.Build.0 = Release|Any CPU
+		{616C4EA8-204D-4A16-9401-F41FC08271AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{616C4EA8-204D-4A16-9401-F41FC08271AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{616C4EA8-204D-4A16-9401-F41FC08271AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{616C4EA8-204D-4A16-9401-F41FC08271AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

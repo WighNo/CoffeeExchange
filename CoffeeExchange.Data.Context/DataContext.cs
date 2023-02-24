@@ -19,5 +19,13 @@ public class DataContext: DbContext
 
     public DbSet<Product> Products => Set<Product>();
 
+    public DbSet<ProductInCart> ProductInCarts => Set<ProductInCart>();
+
     public DbSet<DealRecord> DealRecords => Set<DealRecord>();
+
+    public DbSet<CoffeeHouse> CoffeeHouses => Set<CoffeeHouse>();
+    
+    public DbSet<ProductInAssortment> ProductsInAssortments => Set<ProductInAssortment>();
+
+    public DbSet<ProductSalesHistory> ProductSalesHistories => Set<ProductSalesHistory>();
 }

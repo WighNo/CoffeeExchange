@@ -1,10 +1,12 @@
 using CoffeeExchange.Configs;
 using CoffeeExchange.Data.Context;
 using CoffeeExchange.Mapper;
+using CoffeeExchange.Middlewares;
 using CoffeeExchange.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,34 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen(options =>
 {
     options.DescribeAllParametersInCamelCase();
+    
+    var filePath = Path.Combine(AppContext.BaseDirectory, "CoffeeExchange.xml");
+    options.IncludeXmlComments(filePath);
+    
+    options.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
+        }
+    });
 });
 
 services.AddAutoMapper(typeof(MapperProfile));
@@ -66,6 +96,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseClaimsDetermination();
 
 app.MapControllers();
 
