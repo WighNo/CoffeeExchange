@@ -4,7 +4,7 @@ using CoffeeExchange.Data.Requests.Models;
 using CoffeeExchange.Data.Response.Errors.BadRequest;
 using CoffeeExchange.Data.Response.Errors.NotFound;
 using CoffeeExchange.Helpers;
-using CoffeeExchange.Migrations;
+using CoffeeExchange.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,9 +49,20 @@ public class OrderController : ControllerBase
         if (user is null)
             return new UserNotFound(userId);
 
-        var productsInCart = user.Cart;
+        /*var productsInCart = user.Cart;
 
-        return Ok(productsInCart);
+        var productsInAssortment = _dataContext.ProductsInAssortments
+            .AsNoTracking()
+            .Where(p => productsInCart.Select(pr => pr.Product).Contains(p.Product))
+            .Include(x => x.Product);
+
+        foreach (var product in productsInAssortment)
+        {
+            var target = productsInCart.First(x => x.Product.Id == product.Product.Id);
+            target.IsStock = target.Count <= product.Count;
+        }*/
+        
+        return Ok(user.Cart);
     }
     
     /// <summary>
@@ -112,6 +123,14 @@ public class OrderController : ControllerBase
         var cacheCart = new List<ProductInCart>(cart);
         
         cart.Clear();
+        cart.Capacity = 0;
+
+        ProductPriceHistoryRecordingService priceHistoryRecordingService = new(coffeeHouse, targetAssortment, cacheCart);
+        var histories = priceHistoryRecordingService.CreateRecordsList();
+        await _dataContext.ProductSalesHistories.AddRangeAsync(histories);
+        
+        IPricingService pricingService = new ProductPricingService(cacheCart, coffeeHouse.Assortment);
+        pricingService.GeneratePrices();
 
         _dataContext.ProductInCarts.UpdateRange(cacheCart);
         _dataContext.ProductsInAssortments.UpdateRange(targetAssortment);

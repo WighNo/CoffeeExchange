@@ -71,52 +71,6 @@ public class CoffeeHousesController : ControllerBase
         return Ok(coffeeHouse);
     }
 
-    //TODO Добавить описание ошибки для кол-ва товара
-    /// <summary>
-    /// Добавить товар в корзину пользователя
-    /// </summary>
-    /// <returns></returns>
-    [Authorize]
-    [HttpPost("{coffeeHouseId:int}/add-to-cart")]
-    [ProducesResponseType(typeof(CoffeeHouseNotFound), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(ProductInAssortmentNotFound), StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> AddToCart(int coffeeHouseId, [FromBody] AddProductToCartRequest request)
-    {
-        var coffeeHouse = await _dataContext.CoffeeHouses
-            .AsNoTracking()
-            .Where(x => x.Id == coffeeHouseId)
-            .Include(coffeeHouse => coffeeHouse.Assortment)
-            .ThenInclude(assortment => assortment.Product)
-            .FirstOrDefaultAsync();
-
-        if (coffeeHouse is null)
-            return new CoffeeHouseNotFound(coffeeHouseId);
-
-        var productInAssortment = coffeeHouse.Assortment
-            .FirstOrDefault(x => x.Product.Id == request.ProductId);
-
-        if (productInAssortment is null)
-            return new ProductInAssortmentNotFound(request.ProductId);
-        
-        var userId = HttpContext.GetUserIdClaim();
-        var user = await _dataContext.Users
-            .Include(user => user.Cart)
-            .ThenInclude(userCart => userCart.Product)
-            .FirstOrDefaultAsync(x => x.Id == userId);
-
-        if (user is null)
-            return NotFound();
-
-        var productInCart = user.Cart.FirstOrDefault(p => p.Id == request.ProductId);
-        
-        if (productInAssortment.Count < request.Count + productInCart?.Count)
-            return BadRequest();
-        
-        await user.AddProductToCart(_dataContext, request);
-
-        return Ok(user.Cart);
-    }
-
     /// <summary>
     /// Добавить товар в ассортимент кофейни
     /// </summary>

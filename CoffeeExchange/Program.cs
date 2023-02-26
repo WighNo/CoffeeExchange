@@ -61,6 +61,9 @@ services.AddAutoMapper(typeof(MapperProfile));
 services.AddSingleton<AuthenticationConfig>(authConfig);
 services.AddScoped<IAuthenticationService, AuthenticationService>();
 
+string webRootPath = builder.Environment.WebRootPath;
+services.AddScoped<ProductPhotosSaveService>(_ => new ProductPhotosSaveService(webRootPath));
+
 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -85,6 +88,9 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
 services.AddAuthorization();
 
 var app = builder.Build();
+
+app.UseRequestLogging();
+app.UseStaticFiles();
 
 if (app.Environment.IsDevelopment())
 {

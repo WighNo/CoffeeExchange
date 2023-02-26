@@ -28,4 +28,13 @@
       <ProjectReference Include="..\CoffeeExchange.Data.Response.Models\CoffeeExchange.Data.Response.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\ProductPhotos\5ougv2ly.jpg" />
+      <_ContentIncludedByDefault Remove="wwwroot\ProductPhotos\wwdeqcd0.jpg" />
+    </ItemGroup>
+
 </Project>

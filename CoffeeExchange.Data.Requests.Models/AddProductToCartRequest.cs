@@ -1,3 +1,10 @@
-﻿namespace CoffeeExchange.Data.Requests.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record struct AddProductToCartRequest(int ProductId, int Count);
+namespace CoffeeExchange.Data.Requests.Models;
+
+public record AddProductToCartRequest
+{
+    [Required] public int ProductId { get; set; }
+    
+    [Required] public int Count { get; set; }
+}
